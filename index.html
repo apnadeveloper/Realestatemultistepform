@@ -1,0 +1,1902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homes - Booking Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-gradient: linear-gradient(135deg, #1a73e8 0%, #4285f4 100%);
+            --secondary-gradient: linear-gradient(135deg, #34a853 0%, #0d8043 100%);
+            --success-gradient: linear-gradient(135deg, #4285f4 0%, #1a73e8 100%);
+            --glass-bg: rgba(255, 255, 255, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --primary-color: #1a73e8;
+            --secondary-color: #4285f4;
+            --accent-color: #ea4335;
+            --light-bg: rgba(255, 255, 255, 0.95);
+            --success-color: #34a853;
+            --text-light: #ffffff;
+            --text-dark: #202124;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            color: var(--text-dark);
+        }
+        
+        /* Animated Gradient Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(-45deg, #e8f0fe, #d2e3fc, #c6dafc, #b8d4f1);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+            z-index: -2;
+        }
+        
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        /* Floating Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        
+        .particle {
+            position: absolute;
+            display: block;
+            pointer-events: none;
+            opacity: 0.2;
+            animation: floatUp 15s infinite;
+        }
+        
+        .particle::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(66, 133, 244, 0.6) 0%, rgba(66, 133, 244, 0) 70%);
+            border-radius: 50%;
+        }
+        
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.2;
+            }
+            90% {
+                opacity: 0.2;
+            }
+            100% {
+                transform: translateY(-100vh) scale(1.5);
+                opacity: 0;
+            }
+        }
+        
+        .booking-container {
+            max-width: 900px;
+            margin: 2rem auto;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            border: 1px solid var(--glass-border);
+            overflow: hidden;
+            animation: slideInFromTop 0.8s ease-out;
+        }
+        
+        @keyframes slideInFromTop {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .booking-header {
+            background: var(--primary-gradient);
+            color: var(--text-light);
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .booking-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.15), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            }
+            100% {
+                transform: translateX(100%) translateY(100%) rotate(45deg);
+            }
+        }
+        
+        .booking-header h1 {
+            margin: 0;
+            font-weight: 700;
+            font-size: 2.5rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            animation: fadeInDown 1s ease-out;
+            position: relative;
+            z-index: 1;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .booking-header p {
+            margin: 0.5rem 0 0;
+            opacity: 1;
+            font-size: 1.2rem;
+            font-weight: 500;
+            animation: fadeInUp 1s ease-out 0.3s both;
+            position: relative;
+            z-index: 1;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .step-indicators {
+            display: flex;
+            justify-content: space-between;
+            padding: 2.5rem 2rem 1rem;
+            position: relative;
+        }
+        
+        .step-indicators::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 5%;
+            right: 5%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            z-index: 1;
+            opacity: 0.3;
+        }
+        
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            width: 20%;
+            transition: transform 0.3s ease;
+        }
+        
+        .step:hover {
+            transform: translateY(-5px);
+        }
+        
+        .step-circle {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            font-weight: bold;
+            font-size: 1.3rem;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            position: relative;
+            overflow: hidden;
+            color: var(--text-dark);
+        }
+        
+        .step-circle::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            transform: translate(-50%, -50%);
+            transition: width 0.5s ease, height 0.5s ease;
+        }
+        
+        .step.active .step-circle {
+            background: var(--primary-gradient);
+            color: var(--text-light);
+            box-shadow: 0 0 0 8px rgba(26, 115, 232, 0.2);
+            transform: scale(1.1);
+        }
+        
+        .step.active .step-circle::before {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .step.completed .step-circle {
+            background: var(--success-gradient);
+            color: var(--text-light);
+            box-shadow: 0 0 0 8px rgba(52, 168, 83, 0.2);
+        }
+        
+        .step.completed .step-circle::before {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .step-label {
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            transition: color 0.3s ease;
+        }
+        
+        .step.active .step-label {
+            color: var(--primary-color);
+        }
+        
+        .step.completed .step-label {
+            color: var(--success-color);
+        }
+        
+        .form-container {
+            padding: 2rem;
+            background: var(--light-bg);
+        }
+        
+        .form-step {
+            display: none;
+            animation: fadeInScale 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .form-step.active {
+            display: block;
+        }
+        
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+        }
+        
+        .form-label i {
+            margin-right: 0.5rem;
+            color: var(--primary-color);
+        }
+        
+        .form-control, .form-select {
+            border-radius: 10px;
+            border: 2px solid rgba(26, 115, 232, 0.2);
+            padding: 0.875rem 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
+            color: var(--text-dark);
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(26, 115, 232, 0.15);
+            transform: translateY(-2px);
+            background: white;
+            color: var(--text-dark);
+        }
+        
+        .payment-option {
+            border: 2px solid rgba(26, 115, 232, 0.2);
+            border-radius: 15px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .payment-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(26, 115, 232, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .payment-option:hover::before {
+            left: 100%;
+        }
+        
+        .payment-option:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 10px 25px rgba(26, 115, 232, 0.15);
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.95);
+        }
+        
+        .payment-option.selected {
+            border-color: var(--primary-color);
+            background: linear-gradient(135deg, rgba(26, 115, 232, 0.1) 0%, rgba(66, 133, 244, 0.1) 100%);
+            box-shadow: 0 10px 30px rgba(26, 115, 232, 0.2);
+            transform: scale(1.02);
+        }
+        
+        .payment-option-header {
+            display: flex;
+            align-items: center;
+        }
+        
+        .payment-option-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            margin-right: 1rem;
+            color: var(--text-light);
+            font-size: 1.25rem;
+            box-shadow: 0 5px 15px rgba(26, 115, 232, 0.3);
+            transition: transform 0.3s ease;
+        }
+        
+        .payment-option:hover .payment-option-icon {
+            transform: rotate(10deg) scale(1.1);
+        }
+        
+        .btn-primary {
+            background: var(--primary-gradient);
+            border: none;
+            padding: 0.875rem 2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(26, 115, 232, 0.3);
+            color: var(--text-light);
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(26, 115, 232, 0.4);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #5f6368 0%, #3c4043 100%);
+            border: none;
+            padding: 0.875rem 2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(95, 99, 104, 0.3);
+            color: var(--text-light);
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(95, 99, 104, 0.4);
+        }
+        
+        .btn-success {
+            background: var(--success-gradient);
+            border: none;
+            padding: 0.875rem 2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(52, 168, 83, 0.3);
+            color: var(--text-light);
+        }
+        
+        .btn-success::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn-success:hover::before {
+            left: 100%;
+        }
+        
+        .btn-success:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(52, 168, 83, 0.4);
+        }
+        
+        .form-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(26, 115, 232, 0.1);
+        }
+        
+        .receipt-upload {
+            border: 2px dashed rgba(26, 115, 232, 0.3);
+            border-radius: 15px;
+            padding: 2.5rem;
+            text-align: center;
+            margin-top: 1rem;
+            transition: all 0.4s ease;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(5px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .receipt-upload::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--primary-gradient);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .receipt-upload:hover::before {
+            opacity: 0.05;
+        }
+        
+        .receipt-upload:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 10px 25px rgba(26, 115, 232, 0.15);
+            transform: translateY(-5px);
+        }
+        
+        .receipt-upload i {
+            font-size: 3.5rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .home-plan-option {
+            border: 2px solid rgba(26, 115, 232, 0.2);
+            border-radius: 15px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .home-plan-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(26, 115, 232, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .home-plan-option:hover::before {
+            left: 100%;
+        }
+        
+        .home-plan-option:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 10px 25px rgba(26, 115, 232, 0.15);
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.95);
+        }
+        
+        .home-plan-option.selected {
+            border-color: var(--primary-color);
+            background: linear-gradient(135deg, rgba(26, 115, 232, 0.1) 0%, rgba(66, 133, 244, 0.1) 100%);
+            box-shadow: 0 10px 30px rgba(26, 115, 232, 0.2);
+            transform: scale(1.02);
+        }
+        
+        .home-plan-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .home-plan-option:hover .home-plan-image {
+            transform: scale(1.05);
+        }
+        
+        .home-plan-details {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.75rem;
+        }
+        
+        .home-plan-price {
+            font-weight: bold;
+            font-size: 1.25rem;
+            background: var(--secondary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .invalid-feedback {
+            display: none;
+            color: var(--accent-color);
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            animation: shake 0.5s ease;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .is-invalid ~ .invalid-feedback {
+            display: block;
+        }
+        
+        .is-invalid {
+            border-color: var(--accent-color) !important;
+            animation: shake 0.5s ease;
+        }
+        
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1050;
+        }
+        
+        .toast {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            min-width: 320px;
+            animation: slideInRight 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .toast::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+        }
+        
+        .toast-success::before {
+            background: var(--success-gradient);
+        }
+        
+        .toast-error::before {
+            background: var(--accent-color);
+        }
+        
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .toast-icon {
+            margin-right: 1rem;
+            font-size: 1.75rem;
+        }
+        
+        .toast-success .toast-icon {
+            color: var(--success-color);
+        }
+        
+        .toast-error .toast-icon {
+            color: var(--accent-color);
+        }
+        
+        .summary-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.75rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(26, 115, 232, 0.2);
+            box-shadow: 0 5px 20px rgba(26, 115, 232, 0.1);
+            animation: slideInUp 0.6s ease;
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .summary-title {
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            color: var(--text-dark);
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .summary-title i {
+            margin-right: 0.5rem;
+            color: var(--primary-color);
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(26, 115, 232, 0.1);
+        }
+        
+        .summary-label {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        
+        .summary-value {
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+        
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.25rem;
+            padding-top: 1.25rem;
+            border-top: 2px solid rgba(26, 115, 232, 0.2);
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--text-dark);
+        }
+        
+        .summary-total span:last-child {
+            background: var(--secondary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Loading Spinner */
+        .spinner {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(26, 115, 232, 0.2);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 2rem auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Tab Navigation */
+        .tab-navigation {
+            display: flex;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid rgba(26, 115, 232, 0.2);
+        }
+        
+        .tab-button {
+            padding: 0.75rem 1.5rem;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            font-weight: 600;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .tab-button:hover {
+            color: var(--primary-color);
+        }
+        
+        .tab-button.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+        
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary-gradient);
+            animation: slideInLeft 0.3s ease;
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                transform: scaleX(0);
+            }
+            to {
+                transform: scaleX(1);
+            }
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeInScale 0.5s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Success Modal */
+        .success-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+        }
+        
+        .success-modal.show {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .success-content {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .success-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--success-gradient);
+        }
+        
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: var(--success-gradient);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: pulse 2s infinite;
+        }
+        
+        .success-icon i {
+            font-size: 2.5rem;
+            color: var(--text-light);
+        }
+        
+        .success-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+        
+        .success-message {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        .success-details {
+            background: rgba(52, 168, 83, 0.1);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+        
+        .success-details-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+        
+        .success-details-label {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        
+        .success-details-value {
+            color: var(--text-dark);
+        }
+        
+        .btn-close-modal {
+            background: var(--success-gradient);
+            border: none;
+            color: var(--text-light);
+            padding: 0.875rem 2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(52, 168, 83, 0.3);
+        }
+        
+        .btn-close-modal:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(52, 168, 83, 0.4);
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .booking-container {
+                margin: 1rem;
+                border-radius: 15px;
+            }
+            
+            .booking-header h1 {
+                font-size: 2rem;
+            }
+            
+            .booking-header p {
+                font-size: 1rem;
+            }
+            
+            .step-circle {
+                width: 50px;
+                height: 50px;
+                font-size: 1rem;
+            }
+            
+            .step-label {
+                font-size: 0.7rem;
+            }
+            
+            .tab-button {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .success-content {
+                padding: 2rem;
+            }
+            
+            .success-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg"></div>
+    
+    <!-- Floating Particles -->
+    <div class="particles" id="particles"></div>
+    
+    <div class="container">
+        <div class="booking-container">
+            <div class="booking-header">
+                <h1><i class="fas fa-home"></i> Homes Booking</h1>
+                <p>Real Start Estate - Your Dream Home Awaits</p>
+            </div>
+            
+            <div class="step-indicators">
+                <div class="step active" id="step1-indicator">
+                    <div class="step-circle">1</div>
+                    <div class="step-label">Customer Details</div>
+                </div>
+                <div class="step" id="step2-indicator">
+                    <div class="step-circle">2</div>
+                    <div class="step-label">Home Plan</div>
+                </div>
+                <div class="step" id="step3-indicator">
+                    <div class="step-circle">3</div>
+                    <div class="step-label">Payment Method</div>
+                </div>
+                <div class="step" id="step4-indicator">
+                    <div class="step-circle">4</div>
+                    <div class="step-label">Receiver Details</div>
+                </div>
+                <div class="step" id="step5-indicator">
+                    <div class="step-circle">5</div>
+                    <div class="step-label">Sender Details</div>
+                </div>
+            </div>
+            
+            <div class="form-container">
+                <form id="bookingForm">
+                    <!-- Step 1: Customer Details -->
+                    <div class="form-step active" id="step1">
+                        <h3 class="mb-4"><i class="fas fa-user"></i> Customer Information</h3>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="firstName" class="form-label">
+                                        <i class="fas fa-user"></i> First Name
+                                    </label>
+                                    <input type="text" class="form-control" id="firstName" required>
+                                    <div class="invalid-feedback">Please enter your first name</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="lastName" class="form-label">
+                                        <i class="fas fa-user"></i> Last Name
+                                    </label>
+                                    <input type="text" class="form-control" id="lastName" required>
+                                    <div class="invalid-feedback">Please enter your last name</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email" class="form-label">
+                                <i class="fas fa-envelope"></i> Email Address
+                            </label>
+                            <input type="email" class="form-control" id="email" required>
+                            <div class="invalid-feedback">Please enter a valid email address</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone" class="form-label">
+                                <i class="fas fa-phone"></i> Phone Number
+                            </label>
+                            <input type="tel" class="form-control" id="phone" required>
+                            <div class="invalid-feedback">Please enter your phone number</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="address" class="form-label">
+                                <i class="fas fa-map-marker-alt"></i> Address
+                            </label>
+                            <input type="text" class="form-control" id="address" required>
+                            <div class="invalid-feedback">Please enter your address</div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="city" class="form-label">
+                                        <i class="fas fa-city"></i> City
+                                    </label>
+                                    <input type="text" class="form-control" id="city" required>
+                                    <div class="invalid-feedback">Please enter your city</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="zipCode" class="form-label">
+                                        <i class="fas fa-mail-bulk"></i> Zip Code
+                                    </label>
+                                    <input type="text" class="form-control" id="zipCode" required>
+                                    <div class="invalid-feedback">Please enter your zip code</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-navigation">
+                            <div></div>
+                            <button type="button" class="btn btn-primary" onclick="nextStep(1)">
+                                Next Step <i class="fas fa-arrow-right ms-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2: Home Plan Details -->
+                    <div class="form-step" id="step2">
+                        <h3 class="mb-4"><i class="fas fa-home"></i> Select Your Home Plan</h3>
+                        
+                        <div class="home-plan-option" onclick="selectHomePlan('starter')">
+                            <img src="https://picsum.photos/seed/homestarter/800/400.jpg" alt="Starter Home" class="home-plan-image">
+                            <h5><i class="fas fa-home"></i> Starter Home</h5>
+                            <p>Perfect for first-time homebuyers. 2 bedrooms, 1 bathroom, 900 sq ft.</p>
+                            <div class="home-plan-details">
+                                <span><i class="fas fa-bed"></i> 2 Bed / <i class="fas fa-bath"></i> 1 Bath</span>
+                                <span class="home-plan-price">$250,000</span>
+                            </div>
+                        </div>
+                        
+                        <div class="home-plan-option" onclick="selectHomePlan('family')">
+                            <img src="https://picsum.photos/seed/homefamily/800/400.jpg" alt="Family Home" class="home-plan-image">
+                            <h5><i class="fas fa-home"></i> Family Home</h5>
+                            <p>Great for growing families. 3 bedrooms, 2 bathrooms, 1,500 sq ft.</p>
+                            <div class="home-plan-details">
+                                <span><i class="fas fa-bed"></i> 3 Bed / <i class="fas fa-bath"></i> 2 Bath</span>
+                                <span class="home-plan-price">$350,000</span>
+                            </div>
+                        </div>
+                        
+                        <div class="home-plan-option" onclick="selectHomePlan('luxury')">
+                            <img src="https://picsum.photos/seed/homeluxury/800/400.jpg" alt="Luxury Home" class="home-plan-image">
+                            <h5><i class="fas fa-home"></i> Luxury Home</h5>
+                            <p>For those who want the best. 4 bedrooms, 3 bathrooms, 2,500 sq ft.</p>
+                            <div class="home-plan-details">
+                                <span><i class="fas fa-bed"></i> 4 Bed / <i class="fas fa-bath"></i> 3 Bath</span>
+                                <span class="home-plan-price">$550,000</span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group mt-4">
+                            <label for="additionalNotes" class="form-label">
+                                <i class="fas fa-comment"></i> Additional Notes
+                            </label>
+                            <textarea class="form-control" id="additionalNotes" rows="3"></textarea>
+                        </div>
+                        
+                        <div class="form-navigation">
+                            <button type="button" class="btn btn-secondary" onclick="prevStep(2)">
+                                <i class="fas fa-arrow-left me-2"></i> Previous
+                            </button>
+                            <button type="button" class="btn btn-primary" onclick="nextStep(2)">
+                                Next Step <i class="fas fa-arrow-right ms-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3: Payment Method -->
+                    <div class="form-step" id="step3">
+                        <h3 class="mb-4"><i class="fas fa-credit-card"></i> Select Payment Method</h3>
+                        
+                        <div class="payment-option" onclick="selectPaymentMethod('cod')">
+                            <div class="payment-option-header">
+                                <div class="payment-option-icon">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                </div>
+                                <div>
+                                    <h5>Cash on Delivery</h5>
+                                    <p class="mb-0">Pay when you receive your home keys</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-option" onclick="selectPaymentMethod('stripe')">
+                            <div class="payment-option-header">
+                                <div class="payment-option-icon">
+                                    <i class="fab fa-stripe"></i>
+                                </div>
+                                <div>
+                                    <h5>Stripe</h5>
+                                    <p class="mb-0">Pay securely with your credit card</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-option" onclick="selectPaymentMethod('paypal')">
+                            <div class="payment-option-header">
+                                <div class="payment-option-icon">
+                                    <i class="fab fa-paypal"></i>
+                                </div>
+                                <div>
+                                    <h5>PayPal</h5>
+                                    <p class="mb-0">Pay with your PayPal account</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-option" onclick="selectPaymentMethod('bank')">
+                            <div class="payment-option-header">
+                                <div class="payment-option-icon">
+                                    <i class="fas fa-university"></i>
+                                </div>
+                                <div>
+                                    <h5>Bank Transfer</h5>
+                                    <p class="mb-0">Transfer funds directly from your bank account</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-navigation">
+                            <button type="button" class="btn btn-secondary" onclick="prevStep(3)">
+                                <i class="fas fa-arrow-left me-2"></i> Previous
+                            </button>
+                            <button type="button" class="btn btn-primary" onclick="nextStep(3)">
+                                Next Step <i class="fas fa-arrow-right ms-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 4: Receiver's Payment Details -->
+                    <div class="form-step" id="step4">
+                        <h3 class="mb-4"><i class="fas fa-user-check"></i> Receiver's Payment Details</h3>
+                        
+                        <div class="summary-card">
+                            <div class="summary-title">
+                                <i class="fas fa-clipboard-list"></i> Booking Summary
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label"><i class="fas fa-user"></i> Customer:</span>
+                                <span class="summary-value" id="summaryCustomer">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label"><i class="fas fa-home"></i> Home Plan:</span>
+                                <span class="summary-value" id="summaryHomePlan">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label"><i class="fas fa-credit-card"></i> Payment Method:</span>
+                                <span class="summary-value" id="summaryPaymentMethod">-</span>
+                            </div>
+                            <div class="summary-total">
+                                <span><i class="fas fa-dollar-sign"></i> Total Amount:</span>
+                                <span id="summaryTotal">-</span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="receiverName" class="form-label">
+                                <i class="fas fa-user"></i> Receiver's Name
+                            </label>
+                            <input type="text" class="form-control" id="receiverName" required>
+                            <div class="invalid-feedback">Please enter receiver's name</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="receiverEmail" class="form-label">
+                                <i class="fas fa-envelope"></i> Receiver's Email
+                            </label>
+                            <input type="email" class="form-control" id="receiverEmail" required>
+                            <div class="invalid-feedback">Please enter a valid email address</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="receiverPhone" class="form-label">
+                                <i class="fas fa-phone"></i> Receiver's Phone Number
+                            </label>
+                            <input type="tel" class="form-control" id="receiverPhone" required>
+                            <div class="invalid-feedback">Please enter receiver's phone number</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="receiverAccount" class="form-label">
+                                <i class="fas fa-university"></i> Receiver's Account Number
+                            </label>
+                            <input type="text" class="form-control" id="receiverAccount" required>
+                            <div class="invalid-feedback">Please enter receiver's account number</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="receiverBank" class="form-label">
+                                <i class="fas fa-building"></i> Receiver's Bank Name
+                            </label>
+                            <input type="text" class="form-control" id="receiverBank" required>
+                            <div class="invalid-feedback">Please enter receiver's bank name</div>
+                        </div>
+                        
+                        <div class="form-navigation">
+                            <button type="button" class="btn btn-secondary" onclick="prevStep(4)">
+                                <i class="fas fa-arrow-left me-2"></i> Previous
+                            </button>
+                            <button type="button" class="btn btn-primary" onclick="nextStep(4)">
+                                Next Step <i class="fas fa-arrow-right ms-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 5: Sender's Information -->
+                    <div class="form-step" id="step5">
+                        <h3 class="mb-4"><i class="fas fa-user-tag"></i> Sender's Information</h3>
+                        
+                        <div class="tab-navigation">
+                            <button type="button" class="tab-button active" onclick="switchTab('personal')">
+                                <i class="fas fa-user"></i> Personal Info
+                            </button>
+                            <button type="button" class="tab-button" onclick="switchTab('payment')">
+                                <i class="fas fa-credit-card"></i> Payment Details
+                            </button>
+                        </div>
+                        
+                        <!-- Personal Info Tab -->
+                        <div class="tab-content active" id="personal-tab">
+                            <div class="form-group">
+                                <label for="senderName" class="form-label">
+                                    <i class="fas fa-user"></i> Sender's Name
+                                </label>
+                                <input type="text" class="form-control" id="senderName" required>
+                                <div class="invalid-feedback">Please enter sender's name</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="senderEmail" class="form-label">
+                                    <i class="fas fa-envelope"></i> Sender's Email
+                                </label>
+                                <input type="email" class="form-control" id="senderEmail" required>
+                                <div class="invalid-feedback">Please enter a valid email address</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="senderPhone" class="form-label">
+                                    <i class="fas fa-phone"></i> Sender's Phone Number
+                                </label>
+                                <input type="tel" class="form-control" id="senderPhone" required>
+                                <div class="invalid-feedback">Please enter sender's phone number</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="senderAddress" class="form-label">
+                                    <i class="fas fa-map-marker-alt"></i> Sender's Address
+                                </label>
+                                <input type="text" class="form-control" id="senderAddress" required>
+                                <div class="invalid-feedback">Please enter sender's address</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Payment Details Tab -->
+                        <div class="tab-content" id="payment-tab">
+                            <div class="form-group">
+                                <label for="paymentMethodCenter" class="form-label">
+                                    <i class="fas fa-exchange-alt"></i> Payment Method Used
+                                </label>
+                                <select class="form-select" id="paymentMethodCenter" required>
+                                    <option value="" selected disabled>Select payment method</option>
+                                    <option value="bank-transfer">Bank Transfer</option>
+                                    <option value="wire-transfer">Wire Transfer</option>
+                                    <option value="check">Check</option>
+                                    <option value="other">Other</option>
+                                </select>
+                                <div class="invalid-feedback">Please select a payment method</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="transactionId" class="form-label">
+                                    <i class="fas fa-receipt"></i> Transaction ID
+                                </label>
+                                <input type="text" class="form-control" id="transactionId" required>
+                                <div class="invalid-feedback">Please enter transaction ID</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="paymentDate" class="form-label">
+                                    <i class="fas fa-calendar"></i> Payment Date
+                                </label>
+                                <input type="date" class="form-control" id="paymentDate" required>
+                                <div class="invalid-feedback">Please enter payment date</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="receiptUpload" class="form-label">
+                                    <i class="fas fa-file-upload"></i> Upload Payment Receipt
+                                </label>
+                                <div class="receipt-upload" onclick="document.getElementById('receiptFile').click()">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <p>Click to upload or drag and drop</p>
+                                    <p class="text-muted mb-0">PNG, JPG, PDF up to 10MB</p>
+                                    <input type="file" id="receiptFile" style="display: none;" accept=".png,.jpg,.jpeg,.pdf">
+                                </div>
+                                <div id="fileName" class="mt-2 text-muted"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="spinner" id="loadingSpinner"></div>
+                        
+                        <div class="form-navigation">
+                            <button type="button" class="btn btn-secondary" onclick="prevStep(5)">
+                                <i class="fas fa-arrow-left me-2"></i> Previous
+                            </button>
+                            <button type="button" class="btn btn-success" onclick="submitForm()">
+                                <i class="fas fa-check-circle me-2"></i> Submit Booking
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Success Modal -->
+    <div class="success-modal" id="successModal">
+        <div class="success-content">
+            <div class="success-icon">
+                <i class="fas fa-check"></i>
+            </div>
+            <h2 class="success-title">Booking Successful!</h2>
+            <p class="success-message">
+                Your form has been successfully submitted and we will contact you shortly. Thank you for choosing Homes Tap by Real Start Estate!
+            </p>
+            <div class="success-details">
+                <div class="success-details-item">
+                    <span class="success-details-label">Booking ID:</span>
+                    <span class="success-details-value" id="bookingId">HT-2023-XXXX</span>
+                </div>
+                <div class="success-details-item">
+                    <span class="success-details-label">Customer Name:</span>
+                    <span class="success-details-value" id="customerName">-</span>
+                </div>
+                <div class="success-details-item">
+                    <span class="success-details-label">Home Plan:</span>
+                    <span class="success-details-value" id="homePlanSummary">-</span>
+                </div>
+                <div class="success-details-item">
+                    <span class="success-details-label">Payment Method:</span>
+                    <span class="success-details-value" id="paymentMethodSummary">-</span>
+                </div>
+                <div class="success-details-item">
+                    <span class="success-details-label">Total Amount:</span>
+                    <span class="success-details-value" id="totalAmountSummary">-</span>
+                </div>
+            </div>
+            <button class="btn-close-modal" onclick="closeSuccessModal()">
+                <i class="fas fa-times me-2"></i> Close
+            </button>
+        </div>
+    </div>
+    
+    <div class="toast-container" id="toastContainer"></div>
+    
+    <script>
+        let currentStep = 1;
+        let selectedHomePlan = null;
+        let selectedPaymentMethod = null;
+        let activeTab = 'personal';
+        
+        const homePlanPrices = {
+            'starter': '$250,000',
+            'family': '$350,000',
+            'luxury': '$550,000'
+        };
+        const homePlanNames = {
+            'starter': 'Starter Home',
+            'family': 'Family Home',
+            'luxury': 'Luxury Home'
+        };
+        const paymentMethodNames = {
+            'cod': 'Cash on Delivery',
+            'stripe': 'Stripe',
+            'paypal': 'PayPal',
+            'bank': 'Bank Transfer'
+        };
+        
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 20;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Random size
+                const size = Math.random() * 20 + 10;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random position
+                particle.style.left = `${Math.random() * 100}%`;
+                
+                // Random animation delay
+                particle.style.animationDelay = `${Math.random() * 15}s`;
+                particle.style.animationDuration = `${Math.random() * 10 + 15}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Initialize particles on page load
+        window.addEventListener('load', createParticles);
+        
+        function showStep(step) {
+            // Hide all steps
+            document.querySelectorAll('.form-step').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            // Show current step
+            document.getElementById(`step${step}`).classList.add('active');
+            
+            // Update step indicators with animation
+            document.querySelectorAll('.step').forEach((el, index) => {
+                if (index + 1 < step) {
+                    setTimeout(() => {
+                        el.classList.add('completed');
+                        el.classList.remove('active');
+                    }, index * 100);
+                } else if (index + 1 === step) {
+                    setTimeout(() => {
+                        el.classList.add('active');
+                        el.classList.remove('completed');
+                    }, index * 100);
+                } else {
+                    setTimeout(() => {
+                        el.classList.remove('active', 'completed');
+                    }, index * 100);
+                }
+            });
+            
+            currentStep = step;
+            
+            // Update summary if on step 4 or 5
+            if (step === 4 || step === 5) {
+                setTimeout(updateSummary, 300);
+            }
+        }
+        
+        function nextStep(step) {
+            // Validate current step before proceeding
+            if (!validateStep(step)) {
+                return;
+            }
+            
+            if (step < 5) {
+                showStep(step + 1);
+            }
+        }
+        
+        function prevStep(step) {
+            if (step > 1) {
+                showStep(step - 1);
+            }
+        }
+        
+        function validateStep(step) {
+            let isValid = true;
+            const currentStepElement = document.getElementById(`step${step}`);
+            
+            if (step === 1) {
+                // Validate customer details
+                const requiredFields = ['firstName', 'lastName', 'email', 'phone', 'address', 'city', 'zipCode'];
+                requiredFields.forEach(fieldId => {
+                    const field = document.getElementById(fieldId);
+                    if (!field.value.trim()) {
+                        field.classList.add('is-invalid');
+                        isValid = false;
+                    } else {
+                        field.classList.remove('is-invalid');
+                    }
+                });
+                
+                // Validate email format
+                const emailField = document.getElementById('email');
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (emailField.value && !emailRegex.test(emailField.value)) {
+                    emailField.classList.add('is-invalid');
+                    isValid = false;
+                }
+            } else if (step === 2) {
+                // Validate home plan selection
+                if (!selectedHomePlan) {
+                    showToast('Please select a home plan', 'error');
+                    isValid = false;
+                }
+            } else if (step === 3) {
+                // Validate payment method selection
+                if (!selectedPaymentMethod) {
+                    showToast('Please select a payment method', 'error');
+                    isValid = false;
+                }
+            } else if (step === 4) {
+                // Validate receiver's details
+                const requiredFields = ['receiverName', 'receiverEmail', 'receiverPhone', 'receiverAccount', 'receiverBank'];
+                requiredFields.forEach(fieldId => {
+                    const field = document.getElementById(fieldId);
+                    if (!field.value.trim()) {
+                        field.classList.add('is-invalid');
+                        isValid = false;
+                    } else {
+                        field.classList.remove('is-invalid');
+                    }
+                });
+                
+                // Validate email format
+                const emailField = document.getElementById('receiverEmail');
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (emailField.value && !emailRegex.test(emailField.value)) {
+                    emailField.classList.add('is-invalid');
+                    isValid = false;
+                }
+            }
+            
+            return isValid;
+        }
+        
+        function selectHomePlan(plan) {
+            selectedHomePlan = plan;
+            
+            // Update UI to show selected plan with animation
+            document.querySelectorAll('.home-plan-option').forEach(el => {
+                el.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+            
+            // Add a pulse animation to the selected element
+            event.currentTarget.style.animation = 'pulse 0.5s ease';
+            setTimeout(() => {
+                event.currentTarget.style.animation = '';
+            }, 500);
+        }
+        
+        function selectPaymentMethod(method) {
+            selectedPaymentMethod = method;
+            
+            // Update UI to show selected payment method with animation
+            document.querySelectorAll('.payment-option').forEach(el => {
+                el.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+            
+            // Add a pulse animation to the selected element
+            event.currentTarget.style.animation = 'pulse 0.5s ease';
+            setTimeout(() => {
+                event.currentTarget.style.animation = '';
+            }, 500);
+        }
+        
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+            
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+            
+            activeTab = tabName;
+        }
+        
+        function updateSummary() {
+            // Update customer name
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            document.getElementById('summaryCustomer').textContent = `${firstName} ${lastName}`;
+            
+            // Update home plan
+            if (selectedHomePlan) {
+                document.getElementById('summaryHomePlan').textContent = homePlanNames[selectedHomePlan];
+                document.getElementById('summaryTotal').textContent = homePlanPrices[selectedHomePlan];
+            }
+            
+            // Update payment method
+            if (selectedPaymentMethod) {
+                document.getElementById('summaryPaymentMethod').textContent = paymentMethodNames[selectedPaymentMethod];
+            }
+        }
+        
+        function submitForm() {
+            // Validate all tabs in step 5
+            let isValid = true;
+            const requiredFields = [
+                'senderName', 'senderEmail', 'senderPhone', 'senderAddress',
+                'paymentMethodCenter', 'transactionId', 'paymentDate'
+            ];
+            
+            requiredFields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (field && !field.value.trim()) {
+                    field.classList.add('is-invalid');
+                    isValid = false;
+                } else if (field) {
+                    field.classList.remove('is-invalid');
+                }
+            });
+            
+            // Validate email formats
+            const emailFields = ['senderEmail'];
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            emailFields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (field.value && !emailRegex.test(field.value)) {
+                    field.classList.add('is-invalid');
+                    isValid = false;
+                }
+            });
+            
+            if (!isValid) {
+                showToast('Please fill in all required fields', 'error');
+                return;
+            }
+            
+            // Show loading spinner
+            document.getElementById('loadingSpinner').style.display = 'block';
+            
+            // Simulate form submission
+            setTimeout(() => {
+                document.getElementById('loadingSpinner').style.display = 'none';
+                
+                // Generate a random booking ID
+                const bookingId = 'HT-' + new Date().getFullYear() + '-' + Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+                
+                // Update success modal with booking details
+                document.getElementById('bookingId').textContent = bookingId;
+                document.getElementById('customerName').textContent = document.getElementById('firstName').value + ' ' + document.getElementById('lastName').value;
+                document.getElementById('homePlanSummary').textContent = selectedHomePlan ? homePlanNames[selectedHomePlan] : '-';
+                document.getElementById('paymentMethodSummary').textContent = selectedPaymentMethod ? paymentMethodNames[selectedPaymentMethod] : '-';
+                document.getElementById('totalAmountSummary').textContent = selectedHomePlan ? homePlanPrices[selectedHomePlan] : '-';
+                
+                // Show success modal
+                document.getElementById('successModal').classList.add('show');
+                
+                // Reset form after a delay
+                setTimeout(() => {
+                    document.getElementById('bookingForm').reset();
+                    selectedHomePlan = null;
+                    selectedPaymentMethod = null;
+                    showStep(1);
+                    
+                    // Reset UI selections
+                    document.querySelectorAll('.home-plan-option').forEach(el => {
+                        el.classList.remove('selected');
+                    });
+                    document.querySelectorAll('.payment-option').forEach(el => {
+                        el.classList.remove('selected');
+                    });
+                    
+                    // Reset to first tab
+                    document.querySelectorAll('.tab-button').forEach(button => {
+                        button.classList.remove('active');
+                    });
+                    document.querySelector('.tab-button').classList.add('active');
+                    
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    document.getElementById('personal-tab').classList.add('active');
+                }, 3000);
+            }, 2000);
+        }
+        
+        function closeSuccessModal() {
+            document.getElementById('successModal').classList.remove('show');
+        }
+        
+        function showToast(message, type) {
+            const toastContainer = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            
+            const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+            
+            toast.innerHTML = `
+                <div class="toast-icon">
+                    <i class="fas ${icon}"></i>
+                </div>
+                <div class="toast-message">${message}</div>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            // Remove toast after 3 seconds
+            setTimeout(() => {
+                toast.style.animation = 'slideOutRight 0.3s ease forwards';
+                setTimeout(() => {
+                    toastContainer.removeChild(toast);
+                }, 300);
+            }, 3000);
+        }
+        
+        // Handle file upload with animation
+        document.getElementById('receiptFile').addEventListener('change', function() {
+            const fileName = this.files[0] ? this.files[0].name : '';
+            const fileNameElement = document.getElementById('fileName');
+            
+            if (fileName) {
+                fileNameElement.innerHTML = `<i class="fas fa-file"></i> Selected: ${fileName}`;
+                fileNameElement.style.animation = 'fadeInScale 0.3s ease';
+            } else {
+                fileNameElement.textContent = '';
+            }
+        });
+        
+        // Add fadeOutScale animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeOutScale {
+                from {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+                to {
+                    opacity: 0;
+                    transform: scale(0.95);
+                }
+            }
+            
+            @keyframes slideOutRight {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Add input focus animations
+        document.querySelectorAll('.form-control, .form-select').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
